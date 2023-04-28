@@ -28,6 +28,7 @@ function KuroEndRoundMusic:Initialize()
 							end
 							local path = "endroundmusic/traitor/"..v;
 							resource.AddFile("sound/"..path)
+							print("Found sound/"..path)
 							table.insert(KuroEndRoundMusic.songs[WIN_TRAITOR], {path = path, title = title, author = author})
 							KuroEndRoundMusic.songCount = KuroEndRoundMusic.songCount + 1
 							KuroEndRoundMusic.songCounts[WIN_TRAITOR] = KuroEndRoundMusic.songCounts[WIN_TRAITOR] + 1
@@ -46,6 +47,7 @@ function KuroEndRoundMusic:Initialize()
 							end
 							local path = "endroundmusic/timeout/"..v;
 							resource.AddFile("sound/"..path)
+							print("Found sound/"..path)
 							table.insert(KuroEndRoundMusic.songs[WIN_TIMELIMIT], {path = path, title = title, author = author})
 							KuroEndRoundMusic.songCount = KuroEndRoundMusic.songCount + 1
 							KuroEndRoundMusic.songCounts[WIN_TIMELIMIT] = KuroEndRoundMusic.songCounts[WIN_TIMELIMIT] + 1
@@ -64,6 +66,7 @@ function KuroEndRoundMusic:Initialize()
 							end
 							local path = "endroundmusic/innocent/"..v;
 							resource.AddFile("sound/"..path)
+							print("Found sound/"..path)
 							table.insert(KuroEndRoundMusic.songs[WIN_INNOCENT], {path = path, title = title, author = author})
 							KuroEndRoundMusic.songCount = KuroEndRoundMusic.songCount + 1
 							KuroEndRoundMusic.songCounts[WIN_INNOCENT] = KuroEndRoundMusic.songCounts[WIN_INNOCENT] + 1
@@ -127,9 +130,14 @@ function KuroEndRoundMusic:Initialize()
 				end
 
 				if (KuroEndRoundMusic.errorDisplayed) then return end;
-
+				if (result == "innocents") then result = WIN_INNOCENT end;
+				if (result == "traitors") then result = WIN_TRAITOR end;
+				if (result == "nones") then return end;
 				local songCount = KuroEndRoundMusic.songCounts[result]
-				if (songCount == 0) then return end;
+				if (songCount == 0) then
+					print("Song Counter is 0")
+					return end;
+				print(songCount)
 
 				net.Start("KuroEndRoundMusic")
 					randomSongIndex = math.max(1, math.random(1, songCount))
